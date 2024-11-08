@@ -15,8 +15,8 @@ export class Client {
   public waitTimeoutMs: number;
   public waitIntervalMs: number;
 
-  private constructor(rpcUrl: string, opts?: IClientOpts) {
-    this.provider = new BundlerJsonRpcProvider(rpcUrl).setBundlerRpc(
+  private constructor(rpcUrl: string, userAgent: string, opts?: IClientOpts) {
+    this.provider = new BundlerJsonRpcProvider(rpcUrl, userAgent).setBundlerRpc(
       opts?.overrideBundlerRpc
     );
     this.entryPoint = EntryPoint__factory.connect(
@@ -28,8 +28,8 @@ export class Client {
     this.waitIntervalMs = 5000;
   }
 
-  public static async init(rpcUrl: string, opts?: IClientOpts) {
-    const instance = new Client(rpcUrl, opts);
+  public static async init(rpcUrl: string, userAgent: string, opts?: IClientOpts) {
+    const instance = new Client(rpcUrl, userAgent, opts);
     instance.chainId = await instance.provider
       .getNetwork()
       .then((network) => ethers.BigNumber.from(network.chainId));

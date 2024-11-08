@@ -45,7 +45,7 @@ export class Kernel extends UserOperationBuilder {
   ) {
     super();
     this.signer = signer;
-    this.provider = new BundlerJsonRpcProvider(rpcUrl).setBundlerRpc(
+    this.provider = new BundlerJsonRpcProvider(rpcUrl, 'YourUserAgent/1.0.0').setBundlerRpc(
       opts?.overrideBundlerRpc
     );
     this.entryPoint = EntryPoint__factory.connect(
