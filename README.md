@@ -37,3 +37,17 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 # Contact
 
 Feel free to direct any technical related questions to the `dev-hub` channel in the [Stackup Discord](https://discord.gg/VTjJGvMNyW).
+
+### Key Modifications
+
+- **User-Agent Header for RPC Requests**: Added support for setting a custom `User-Agent` header in all RPC requests. This modification allows requests to comply with WAF (Web Application Firewall) requirements that may require a specific `User-Agent` value.
+
+  The `User-Agent` can be set dynamically via environment variables or defaults to a custom value. Here’s an example:
+
+  ```javascript
+  import { Client } from "./path-to-client";
+
+  // Example setup with dynamic User-Agent
+  const client = new Client("https://rpc-url", {
+      userAgent: process.env.USER_AGENT || "YourCustomUserAgent/1.0.0"
+  });
