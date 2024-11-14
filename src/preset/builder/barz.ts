@@ -29,11 +29,12 @@ export class Barz extends UserOperationBuilder {
   private constructor(
     signer: BarzSecp256r1,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ) {
     super();
     this.signer = signer;
-    this.provider = new BundlerJsonRpcProvider(rpcUrl, 'YourUserAgent/1.0.0').setBundlerRpc(
+    this.provider = new BundlerJsonRpcProvider(rpcUrl, userAgent).setBundlerRpc(
       opts?.overrideBundlerRpc
     );
     this.entryPoint = EntryPoint__factory.connect(
@@ -59,9 +60,10 @@ export class Barz extends UserOperationBuilder {
   public static async init(
     signer: BarzSecp256r1,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ): Promise<Barz> {
-    const instance = new Barz(signer, rpcUrl, opts);
+    const instance = new Barz(signer, rpcUrl, userAgent, opts);
 
     try {
       instance.initCode = await ethers.utils.hexConcat([

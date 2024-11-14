@@ -41,11 +41,12 @@ export class Kernel extends UserOperationBuilder {
   private constructor(
     signer: ethers.Signer,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ) {
     super();
     this.signer = signer;
-    this.provider = new BundlerJsonRpcProvider(rpcUrl, 'YourUserAgent/1.0.0').setBundlerRpc(
+    this.provider = new BundlerJsonRpcProvider(rpcUrl, userAgent).setBundlerRpc(
       opts?.overrideBundlerRpc
     );
     this.entryPoint = EntryPoint__factory.connect(
@@ -82,9 +83,10 @@ export class Kernel extends UserOperationBuilder {
   public static async init(
     signer: ethers.Signer,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ): Promise<Kernel> {
-    const instance = new Kernel(signer, rpcUrl, opts);
+    const instance = new Kernel(signer, rpcUrl, userAgent, opts);
 
     try {
       instance.initCode = await ethers.utils.hexConcat([

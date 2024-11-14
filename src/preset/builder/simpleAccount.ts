@@ -33,11 +33,12 @@ export class SimpleAccount extends UserOperationBuilder {
   private constructor(
     signer: EOASigner,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ) {
     super();
     this.signer = signer;
-    this.provider = new BundlerJsonRpcProvider(rpcUrl,'YourUserAgent/1.0.0').setBundlerRpc(
+    this.provider = new BundlerJsonRpcProvider(rpcUrl, userAgent).setBundlerRpc(
       opts?.overrideBundlerRpc
     );
     this.entryPoint = EntryPoint__factory.connect(
@@ -68,9 +69,10 @@ export class SimpleAccount extends UserOperationBuilder {
   public static async init(
     signer: EOASigner,
     rpcUrl: string,
+    userAgent: string,
     opts?: IPresetBuilderOpts
   ): Promise<SimpleAccount> {
-    const instance = new SimpleAccount(signer, rpcUrl, opts);
+    const instance = new SimpleAccount(signer, rpcUrl, userAgent, opts);
 
     try {
       instance.initCode = await ethers.utils.hexConcat([
