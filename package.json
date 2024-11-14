@@ -1,6 +1,6 @@
 {
   "name": "blndgs-userop",
-  "version": "0.3.81-useragent",
+  "version": "0.3.82-useragent",
   "description": "A simple JS library for building ERC-4337 UserOperations. A modified version with custom User-Agent support for RPC requests.",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
