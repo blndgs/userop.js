@@ -69,12 +69,32 @@ export class BundlerJsonRpcProvider extends ethers.providers.JsonRpcProvider {
         jsonrpc: "2.0"
       })
     };
-
+  
     try {
       const response = await axios(request);
+      if (response.data.error) {
+        throw new Error(
+          `RPC Error: ${response.data.error.message} (Code: ${response.data.error.code})`
+        );
+      }
       return response.data.result;
     } catch (error) {
-      throw new Error(`RPC request failed: ${error}`);
+      if (axios.isAxiosError(error)) {
+        // Axios-specific error handling
+        const statusCode = error.response?.status || "Unknown Status Code";
+        const responseData = error.response?.data || {};
+        const errorMessage = responseData.error?.message || error.message;
+  
+        throw new Error(
+          `HTTP ${statusCode} - RPC request failed: ${errorMessage}\n` +
+          `Request Method: ${method}\n` +
+          `Request Params: ${JSON.stringify(params)}\n` +
+          `Response Data: ${JSON.stringify(responseData)}`
+        );
+      }
+  
+      // General error fallback
+      throw new Error(`Unexpected error during RPC request: ${error}`);
     }
   }
 
